@@ -157,7 +157,9 @@ namespace HermesProxy.World.Client
             byte ownSubGroup = packet.ReadUInt8();
             byte ownGroupFlags = packet.ReadUInt8();
             party.PartyIndex = (byte)(isBattleground ? 1 : 0);
-            party.PartyGUID = packet.ReadGuid().To128(GetSession().GameState);
+            party.PartyGUID = WowGuid128.Create(HighGuidType703.Party, (ulong)(1000 + party.PartyIndex));
+            //party.PartyGUID = packet.ReadGuid().To128(GetSession().GameState);
+            long whatever = packet.ReadInt64();
             if (party.PartyIndex != 0)
                 party.PartyFlags |= GroupFlags.FakeRaid;
 
