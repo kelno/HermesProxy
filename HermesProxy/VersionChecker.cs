@@ -816,7 +816,7 @@ namespace HermesProxy
             }
             else if (LegacyVersion.RemovedInVersion(ClientVersionBuild.V3_0_2_9056))
             {
-                activeFlags = 0x0;
+                activeFlags = 0x0; //sun, start at 0
                 newFlags = AuraFlagsModern.None;
 
                 if (oldFlags.HasAnyFlag(AuraFlagsTBC.Cancelable))
