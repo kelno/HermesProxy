@@ -226,7 +226,7 @@ namespace HermesProxy.World.Client
             else
             {
                 party.PartyFlags |= GroupFlags.Destroyed;
-                if (party.PartyIndex  == 0)
+                if (party.PartyIndex == 0)
                     party.PartyGUID = WowGuid128.Empty;
                 party.LeaderGUID = WowGuid128.Empty;
                 party.MyIndex = -1;
