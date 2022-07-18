@@ -633,7 +633,7 @@ namespace HermesProxy
         {
             if (LegacyVersion.RemovedInVersion(ClientVersionBuild.V2_0_1_6180))
             {
-                activeFlags = 0;
+                activeFlags = 0x0;
                 newFlags = AuraFlagsModern.None;
 
                 if (slot >= 32)
@@ -645,15 +645,15 @@ namespace HermesProxy
                     newFlags |= AuraFlagsModern.Cancelable;
 
                 if (oldFlags.HasAnyFlag(AuraFlagsVanilla.EffectIndex0))
-                    activeFlags |= 1;
+                    activeFlags |= 0x1;
                 if (oldFlags.HasAnyFlag(AuraFlagsVanilla.EffectIndex1))
-                    activeFlags |= 2;
+                    activeFlags |= 0x2;
                 if (oldFlags.HasAnyFlag(AuraFlagsVanilla.EffectIndex2))
-                    activeFlags |= 4;
+                    activeFlags |= 0x4;
             }
             else if (LegacyVersion.RemovedInVersion(ClientVersionBuild.V3_0_2_9056))
             {
-                activeFlags = 0x1;
+                activeFlags = 0x0;
                 newFlags = AuraFlagsModern.None;
 
                 if (oldFlags.HasAnyFlag(AuraFlagsTBC.Cancelable))
@@ -672,7 +672,7 @@ namespace HermesProxy
             }
             else
             {
-                activeFlags = 0;
+                activeFlags = 0x0;
                 newFlags = AuraFlagsModern.None;
 
                 if (oldFlags.HasAnyFlag(AuraFlagsWotLK.Negative))
@@ -686,11 +686,11 @@ namespace HermesProxy
                     newFlags |= AuraFlagsModern.Duration;
 
                 if (oldFlags.HasAnyFlag(AuraFlagsWotLK.EffectIndex0))
-                    activeFlags |= 1;
+                    activeFlags |= 0x1;
                 if (oldFlags.HasAnyFlag(AuraFlagsWotLK.EffectIndex1))
-                    activeFlags |= 2;
+                    activeFlags |= 0x2;
                 if (oldFlags.HasAnyFlag(AuraFlagsWotLK.EffectIndex2))
-                    activeFlags |= 4;
+                    activeFlags |= 0x4;
             }
         }
 
