@@ -51,18 +51,24 @@ namespace HermesProxy.World.Enums
         OnTransport        = 0x00000200,
         DisableGravity     = 0x00000400,
         Root               = 0x00000800,
-        Falling            = 0x00001000,
-        Jumping            = 0x00002000,
-        FallingFar         = 0x00004000,
+        Falling            = 0x00001000, // MOVEMENTFLAG_JUMPING_OR_FALLING
+        FallingFar         = 0x00002000,
+        PendingStop        = 0x00004000,
+        PendingStrafeStop  = 0x00008000,
+        PendingForward     = 0x00010000,
+        PendingBackward    = 0x00020000,
+        PendingStrafeLeft  = 0x00040000,
+        PendingStrafeRight = 0x00080000,
+        PendingRoot        = 0x00100000,
         Swimming           = 0x00200000,
         Ascending          = 0x00400000,
-        CanFly             = 0x00800000,
-        Flying             = 0x01000000,
-        Flying2            = 0x02000000,
+        Descending         = 0x00800000,
+        CanFly             = 0x01000000, // MOVEMENTFLAG_CAN_FLY
+        Flying             = 0x02000000, // MOVEMENTFLAG_PLAYER_FLYING
         SplineElevation    = 0x04000000,
         SplineEnabled      = 0x08000000,
         Waterwalking       = 0x10000000,
-        CanSafeFall        = 0x20000000,
+        CanSafeFall        = 0x20000000, // MOVEMENTFLAG_FALLING_SLOW
         Hover              = 0x40000000,
     }
 
