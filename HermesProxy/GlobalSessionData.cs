@@ -67,6 +67,7 @@ namespace HermesProxy
         public List<ClientCastRequest> PendingClientPetCasts = new List<ClientCastRequest>();
         public WowGuid64 LastLootTargetGuid;
         public List<int> ActionButtons = new();
+        public Dictionary<WowGuid128, uint> UnitOffsetBuffLimit = new();
         public Dictionary<WowGuid128, Dictionary<byte, int>> UnitAuraDurationUpdateTime = new();
         public Dictionary<WowGuid128, Dictionary<byte, int>> UnitAuraDurationLeft = new();
         public Dictionary<WowGuid128, Dictionary<byte, int>> UnitAuraDurationFull = new();
@@ -97,6 +98,14 @@ namespace HermesProxy
         public HashSet<string> AddonPrefixes = new HashSet<string>();
         public Dictionary<byte, Dictionary<byte, int>> FlatSpellMods = new Dictionary<byte, Dictionary<byte, int>>();
         public Dictionary<byte, Dictionary<byte, int>> PctSpellMods = new Dictionary<byte, Dictionary<byte, int>>();
+
+        public uint GetBuffLimitForTarget(WowGuid128 guid)
+        {
+            if (UnitOffsetBuffLimit.TryGetValue(guid, out uint limit))
+                return limit;
+
+            return guid.GetHighType() == HighGuidType.Player || guid.GetHighType() == HighGuidType.Pet ? 40u : 16u;
+        }
 
         public uint GetCurrentGroupSize()
         {

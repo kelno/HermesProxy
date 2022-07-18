@@ -629,7 +629,7 @@ namespace HermesProxy
             }
             return (byte)(slot - offset);
         }
-        public static void ConvertAuraFlags(ushort oldFlags, byte slot, out AuraFlagsModern newFlags, out uint activeFlags)
+        public static void ConvertAuraFlags(ushort oldFlags, byte slot, uint buffLimit, out AuraFlagsModern newFlags, out uint activeFlags)
         {
             if (LegacyVersion.RemovedInVersion(ClientVersionBuild.V2_0_1_6180))
             {
@@ -653,22 +653,22 @@ namespace HermesProxy
             }
             else if (LegacyVersion.RemovedInVersion(ClientVersionBuild.V3_0_2_9056))
             {
-                activeFlags = 1;
+                activeFlags = 0x1;
                 newFlags = AuraFlagsModern.None;
 
-                if (oldFlags.HasAnyFlag(AuraFlagsTBC.NotCancelable))
-                    newFlags |= AuraFlagsModern.Negative;
-                else if (oldFlags.HasAnyFlag(AuraFlagsTBC.Cancelable))
+                if (oldFlags.HasAnyFlag(AuraFlagsTBC.Cancelable))
                     newFlags |= (AuraFlagsModern.Positive | AuraFlagsModern.Cancelable);
-                else if (slot >= 40)
+                if (slot >= buffLimit)
                     newFlags |= AuraFlagsModern.Negative;
+                else
+                    newFlags |= AuraFlagsModern.Positive;
 
                 if (oldFlags.HasAnyFlag(AuraFlagsTBC.EffectIndex0))
-                    activeFlags |= 1;
+                    activeFlags |= 0x1;
                 if (oldFlags.HasAnyFlag(AuraFlagsTBC.EffectIndex1))
-                    activeFlags |= 2;
+                    activeFlags |= 0x2;
                 if (oldFlags.HasAnyFlag(AuraFlagsTBC.EffectIndex2))
-                    activeFlags |= 4;
+                    activeFlags |= 0x4;
             }
             else
             {

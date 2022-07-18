@@ -1074,6 +1074,7 @@ namespace HermesProxy.World.Client
             data.CastID = WowGuid128.Create(HighGuidType703.Cast, World.Enums.SpellCastSource.Aura, (uint)GetSession().GameState.CurrentMapId, (uint)spellId, guid.GetCounter());
             data.SpellID = spellId;
             data.SpellXSpellVisualID = GameData.GetSpellVisual(spellId);
+            var buffLimit = GetSession().GameState.GetBuffLimitForTarget(guid); //sun: for tbc only
 
             if (LegacyVersion.AddedInVersion(ClientVersionBuild.V2_0_1_6180))
             {
@@ -1081,7 +1082,7 @@ namespace HermesProxy.World.Client
                 if (updates.ContainsKey(flagsIndex))
                 {
                     ushort flags = (ushort)((updates[flagsIndex].UInt32Value >> ((i % 4) * 8)) & 0xFF);
-                    ModernVersion.ConvertAuraFlags(flags, i, out data.Flags, out data.ActiveFlags);
+                    ModernVersion.ConvertAuraFlags(flags, i, buffLimit, out data.Flags, out data.ActiveFlags);
                 }
             }
             else
@@ -1090,7 +1091,7 @@ namespace HermesProxy.World.Client
                 if (updates.ContainsKey(flagsIndex))
                 {
                     ushort flags = (ushort)((updates[flagsIndex].UInt32Value >> ((i % 8) * 4)) & 0xF);
-                    ModernVersion.ConvertAuraFlags(flags, i, out data.Flags, out data.ActiveFlags);
+                    ModernVersion.ConvertAuraFlags(flags, i, buffLimit, out data.Flags, out data.ActiveFlags);
                 }
             }
 
@@ -1822,6 +1823,8 @@ namespace HermesProxy.World.Client
 
                     if (LegacyVersion.AddedInVersion(ClientVersionBuild.V3_0_2_9056))
                         updateData.UnitData.PvpFlags = (byte)((updates[UNIT_FIELD_BYTES_2].UInt32Value >> 8) & 0xFF);
+                    else // sun
+                        GetSession().GameState.UnitOffsetBuffLimit[guid] = (updates[UNIT_FIELD_BYTES_2].UInt32Value >> 8) & 0xFF;
 
                     if (LegacyVersion.AddedInVersion(ClientVersionBuild.V2_0_1_6180))
                         updateData.UnitData.PetFlags = (byte)((updates[UNIT_FIELD_BYTES_2].UInt32Value >> 16) & 0xFF);
