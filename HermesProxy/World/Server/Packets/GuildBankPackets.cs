@@ -68,4 +68,80 @@ namespace HermesProxy.World.Server.Packets
         public bool FullUpdate;
     }
 
+    public class GuildBankItemInfo
+    {
+        public ItemInstance Item;
+        public int Slot;
+        public int Count;
+        public int EnchantmentID;
+        public int Charges;
+        public int OnUseEnchantmentID;
+        public int Flags;
+        public bool Locked = false;
+        public List<ItemGemData> SocketEnchant;
+        public void Write(WorldPacket data)
+        {
+            data.WriteInt32(Slot);
+            data.WriteInt32(Count);
+            data.WriteInt32(EnchantmentID);
+            data.WriteInt32(Charges);
+            data.WriteInt32(OnUseEnchantmentID);
+            data.WriteInt32(Flags);
+            //FIXME
+            //data << Item;
+            //data.WriteBits(SocketEnchant.size(), 2);
+            //data.WriteBit(Locked);
+            //data.FlushBits();
+
+            //for (Item::ItemGemData const&socketEnchant : SocketEnchant)
+            //    data << socketEnchant;
+        }
+    }
+
+    public class GuildBankTabInfo
+    {
+        public int TabIndex;
+        public String Name;
+        public String Icon;
+
+        public void Write(WorldPacket data)
+        {
+            data.WriteInt32(TabIndex);
+            data.WriteBits(Name.Length, 7);
+            data.WriteBits(Icon.Length, 9);
+            data.FlushBits();
+            data.WriteString(Name);
+            data.WriteString(Icon);
+        }
+    }
+
+    public class GuildBankQueryResults : ServerPacket
+    {
+        public GuildBankQueryResults() : base(Opcode.SMSG_GUILD_BANK_QUERY_RESULTS) { }
+
+        public override void Write()
+        {
+            //temp until GuildBankItemInfo.Write is fixed
+            ItemInfo.Clear();
+            //
+
+            _worldPacket.WriteUInt64(Money);
+            _worldPacket.WriteInt32(Tab);
+            _worldPacket.WriteInt32(WithdrawalsRemaining);
+            _worldPacket.WriteUInt32(Convert.ToUInt32(TabInfo.Count));
+            _worldPacket.WriteUInt32(Convert.ToUInt32(ItemInfo.Count));
+            _worldPacket.WriteBool(FullUpdate);
+
+            TabInfo.ForEach(p => p.Write(_worldPacket));
+            ItemInfo.ForEach(p => p.Write(_worldPacket));
+        }
+
+        public List<GuildBankItemInfo> ItemInfo = new List<GuildBankItemInfo>();
+        public List<GuildBankTabInfo> TabInfo = new List<GuildBankTabInfo>();
+        public int WithdrawalsRemaining;
+        public int Tab;
+        public UInt64 Money;
+        public bool FullUpdate;
+    }
+
 }
