@@ -39,5 +39,18 @@ namespace HermesProxy.World.Server.Packets
         public bool FullUpdate;
     }
 
+    public class GuildBankBuyTab : ClientPacket
+    {
+        public GuildBankBuyTab(WorldPacket packet) : base(packet) { }
+
+        public override void Read()
+        {
+            Banker = _worldPacket.ReadPackedGuid128();
+            BankTab = _worldPacket.ReadUInt8();
+        }
+
+        public WowGuid128 Banker;
+        public byte BankTab;
+    }
 
 }

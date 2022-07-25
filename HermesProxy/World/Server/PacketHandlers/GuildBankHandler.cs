@@ -19,5 +19,14 @@ namespace HermesProxy.World.Server
             SendPacketToServer(packet);
         }
 
+        [PacketHandler(Opcode.CMSG_GUILD_BANK_BUY_TAB)]
+        void HandleGuildBankBuyTab(GuildBankBuyTab query)
+        {
+            WorldPacket packet = new WorldPacket(Opcode.CMSG_GUILD_BANK_BUY_TAB);
+            packet.WriteGuid(query.Banker.To64());
+            packet.WriteUInt8(query.BankTab);
+            SendPacketToServer(packet);
+        }
+        
     }
 }
