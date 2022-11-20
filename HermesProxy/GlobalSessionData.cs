@@ -55,6 +55,7 @@ namespace HermesProxy
         public World.Server.Packets.PartyUpdate[] CurrentGroups = new World.Server.Packets.PartyUpdate[2];
         public WowGuid128 CurrentPlayerGuid;
         public long CurrentPlayerCreateTime;
+        public OwnCharacterInfo CurrentPlayerInfo;
         public uint CurrentGuildCreateTime;
         public uint CurrentGuildNumAccounts;
         public WowGuid128 CurrentInteractedWithNPC;
@@ -110,6 +111,21 @@ namespace HermesProxy
             return guid.GetHighType() == HighGuidType.Player || guid.GetHighType() == HighGuidType.Pet ? 40u : 16u;
         }
 
+
+        public PlayerQuestTracker QuestTracker;
+
+        private GameSessionData()
+        {
+            
+        }
+        
+        public static GameSessionData CreateNewGameSessionData(GlobalSessionData globalSession)
+        {
+            var self = new GameSessionData();
+            self.QuestTracker = new PlayerQuestTracker(globalSession);
+            return self;
+        }
+        
         public uint GetCurrentGroupSize()
         {
             var group = GetCurrentGroup();
@@ -668,7 +684,7 @@ namespace HermesProxy
         public string Locale;
         public string OS;
         public uint Build;
-        public GameSessionData GameState = new();
+        public GameSessionData GameState;
         
         public RealmId RealmId;
         public RealmManager RealmManager = new();
@@ -686,6 +702,11 @@ namespace HermesProxy
         public Dictionary<string, WowGuid128> GuildsByName = new();
         public Dictionary<uint, List<string>> GuildRanks = new();
 
+        public GlobalSessionData()
+        {
+            GameState = GameSessionData.CreateNewGameSessionData(this);
+        }
+        
         public void StoreGuildRankNames(uint guildId, List<string> ranks)
         {
             if (GuildRanks.ContainsKey(guildId))
@@ -773,7 +794,7 @@ namespace HermesProxy
                 InstanceSocket = null;
             }
 
-            GameState = new();
+            GameState = GameSessionData.CreateNewGameSessionData(this);
         }
     }
 }
