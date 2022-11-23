@@ -84,7 +84,7 @@ namespace HermesProxy.World.Client
                 party.DifficultySettings = new PartyDifficultySettings();
                 party.DifficultySettings.DungeonDifficultyID = Difficulty.Normal;
 
-                if (ModernVersion.GetExpansionVersion() > 1)
+                if (ModernVersion.ExpansionVersion > 1)
                     party.DifficultySettings.RaidDifficultyID = Difficulty.Raid25N;
                 else
                     party.DifficultySettings.RaidDifficultyID = Difficulty.Raid40;
@@ -216,7 +216,7 @@ namespace HermesProxy.World.Client
                 party.DifficultySettings = new PartyDifficultySettings();
                 party.DifficultySettings.DungeonDifficultyID = (Difficulty)packet.ReadUInt8();
 
-                if (ModernVersion.GetExpansionVersion() > 1)
+                if (ModernVersion.ExpansionVersion > 1)
                     party.DifficultySettings.RaidDifficultyID = Difficulty.Raid25N;
                 else
                     party.DifficultySettings.RaidDifficultyID = Difficulty.Raid40;
