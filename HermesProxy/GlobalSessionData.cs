@@ -56,6 +56,7 @@ namespace HermesProxy
         public WowGuid128 CurrentPlayerGuid;
         public long CurrentPlayerCreateTime;
         public OwnCharacterInfo CurrentPlayerInfo;
+        public CurrentPlayerStorage CurrentPlayerStorage;
         public uint CurrentGuildCreateTime;
         public uint CurrentGuildNumAccounts;
         public WowGuid128 CurrentInteractedWithNPC;
@@ -118,11 +119,11 @@ namespace HermesProxy
         {
             
         }
-        
+
         public static GameSessionData CreateNewGameSessionData(GlobalSessionData globalSession)
         {
             var self = new GameSessionData();
-            self.QuestTracker = new PlayerQuestTracker(globalSession);
+            self.CurrentPlayerStorage = new CurrentPlayerStorage(globalSession);
             return self;
         }
         
