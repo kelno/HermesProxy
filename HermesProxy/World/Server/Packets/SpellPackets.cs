@@ -1562,6 +1562,17 @@ namespace HermesProxy.World.Server.Packets
         public WowGuid Guid;
     }
 
+    class SpellClick : ClientPacket
+    {
+        public SpellClick(WorldPacket packet) : base(packet) { }
+
+        public override void Read()
+        {
+            Guid = _worldPacket.ReadPackedGuid128();
+        }
+        public WowGuid128 Guid;
+    }
+
     public class SetSpellModifier : ServerPacket
     {
         public SetSpellModifier(Opcode opcode) : base(opcode, ConnectionType.Instance) { }

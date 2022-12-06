@@ -377,5 +377,16 @@ namespace HermesProxy.World.Server
             packet.WriteUInt8(totem.Slot);
             SendPacketToServer(packet);
         }
+
+        [PacketHandler(Opcode.CMSG_SPELL_CLICK)]
+        void HandleSpellClick(SpellClick spellClick)
+        {
+            if (LegacyVersion.RemovedInVersion(ClientVersionBuild.V2_0_1_6180))
+                return;
+
+            WorldPacket packet = new WorldPacket(Opcode.CMSG_SPELL_CLICK);
+            packet.WriteGuid(spellClick.Guid.To64());
+            SendPacketToServer(packet);
+        }
     }
 }
