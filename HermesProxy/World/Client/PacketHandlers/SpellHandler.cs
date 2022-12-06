@@ -315,7 +315,9 @@ namespace HermesProxy.World.Client
             }
             else
             {
-                castId = WowGuid128.Create(HighGuidType703.Cast, SpellCastSource.Normal, (uint)GetSession().GameState.CurrentMapId, spellId, spellId + casterUnit.GetCounter());
+                uint mapId = GetSession().GameState.CurrentMapId != null ? (uint)GetSession().GameState.CurrentMapId : 0; // can happen on char creation
+                ulong counter = spellId + casterUnit.GetCounter();
+                castId = WowGuid128.Create(HighGuidType703.Cast, SpellCastSource.Normal, mapId, spellId, counter);
                 spellVisual = GameData.GetSpellVisual(spellId);
             }
 
