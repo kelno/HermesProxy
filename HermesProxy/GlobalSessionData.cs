@@ -128,17 +128,6 @@ namespace HermesProxy
 
         public TradeSession? CurrentTrade = null;
 
-        public uint GetBuffLimitForTarget(WowGuid128 guid)
-        {
-            if (UnitOffsetBuffLimit.TryGetValue(guid, out uint limit))
-                return limit;
-
-            return guid.GetHighType() == HighGuidType.Player || guid.GetHighType() == HighGuidType.Pet ? 40u : 16u;
-        }
-
-
-        public PlayerQuestTracker QuestTracker;
-
         private GameSessionData()
         {
             
