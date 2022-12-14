@@ -734,6 +734,10 @@ namespace HermesProxy.World.Client
             spell.Flags = (SpellHitType)packet.ReadUInt32();
 
             bool debugOutput = packet.ReadBool();
+
+            /* Sun: Those don't seem to appear on regular client. Struct ok for BC and TLK,
+             *      but we don't send this from the server.
+             
             if (debugOutput)
             {
                 if (!spell.Flags.HasAnyFlag(SpellHitType.Split))
@@ -761,6 +765,7 @@ namespace HermesProxy.World.Client
                     }
                 }
             }
+            */
 
             SendPacketToClient(spell);
         }
