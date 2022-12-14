@@ -1448,10 +1448,8 @@ namespace HermesProxy.World.Client
                         GetSession().GameState.StoreCreatureClass(guid.GetEntry(), (Class)updateData.UnitData.ClassId);
                     else
                     {
-                        //updateData.PlayerData.ArenaFaction = (byte)(GameData.IsAllianceRace((Race)updateData.UnitData.RaceId) ? 1 : 0);
-                        // sun: 0 for our team, 1 for enemy team. Client seems to deduce pet faction from owner.
-                        bool inGroup = (GetSession().GameState.CurrentGroups[1]?.PlayerList.Any(x => x.GUID == guid)).GetValueOrDefault() || guid == GetSession().GameState.CurrentPlayerGuid;
-                        updateData.PlayerData.ArenaFaction = Convert.ToByte(!inGroup);
+                        // sun: we need to use the faction data to have the correct Arena Faction set
+                        updateData.PlayerData.ArenaFaction = (byte)(GameData.IsAllianceRace((Race)updateData.UnitData.FactionTemplate) ? 1 : 0);
                     }
                 }
 
